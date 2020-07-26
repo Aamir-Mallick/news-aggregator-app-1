@@ -1,0 +1,127 @@
+:root, [data-theme="default"] {
+    --background-body-color: #1b2b34;
+    --font-color:white;
+    --border-color:white;
+    --box-color:rgba(39, 35, 35, 0.986);
+    --img-background:#1b2b34;
+    --box-shadow:#f4f4f4;
+    --author-color:rgb(43, 173, 216);
+    --border-line-color:#e0e0e0;
+}
+
+[data-theme="light"] {
+    --background-body-color: white;
+    --font-color:black;
+    --border-color:black;
+    --box-color:rgb(31, 247, 157);
+    --img-background:#f4f4f4;
+    --box-shadow:rgb(31, 247, 157);
+    --author-color:black;
+    --border-line-color:#0e0e0e;
+  }
+
+body{
+    background-color: var(--background-body-color);
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 1em;
+    color: var(--font-color);
+}
+
+.site-title{
+    grid-area: title;
+    font-size: 32px;
+    font-family: 'Trebuchet MS';
+    border: 1px solid var(--border-color);
+    padding: 5px 25px;
+    justify-self: center;
+}
+
+
+.switch{
+    grid-area: switch;
+    justify-self: center;
+    align-self: center;
+    position: relative;
+    width: 60px;
+    height: 34px;
+}
+
+#toggle_action{
+    display: none;
+  }
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color:#fcfcfc;
+    transition: .4s;
+    &:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        transition: .4s;
+    }
+}
+  input:checked + .slider {
+    background-color: rgba(39, 35, 35, 0.986);
+    &:before {
+        transform: translateX(26px);
+    }
+  }
+  input:focus + .slider {
+    box-shadow: 0 0 1px ;
+  }
+
+//    Rounded sliders 
+  .slider.round {
+    border-radius: 34px;
+    &:before {
+        border-radius: 50%;
+        background-color: #aaaaaa;
+    }
+  }
+
+
+
+.search-container{
+    grid-area: searchBox;
+    width: 100%;
+    margin-top: 2em;
+    justify-self: center;
+
+    #search{
+        width: 100%;
+        height: auto;
+        background-color:var(--background-body-color);
+        padding :2px 10px;
+        font-size: 24px;
+        color:var(--font-color);
+        border: 2px solid var(--border-line-color);
+        border-top: var(--background-body-color);
+        border-left: var(--background-body-color);
+        border-right: var(--background-body-color);
+    }
+}
+
+
+.wrapper{
+    display: grid;
+    gap: 20px;
+    padding: 0 5em ;
+    grid-template-areas:
+        ' . title title switch'
+        '. searchBox searchBox tcontrol';
+
+}
+
+
+
+
+
