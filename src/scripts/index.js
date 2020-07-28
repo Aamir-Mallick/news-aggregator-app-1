@@ -16,15 +16,18 @@ document.addEventListener('DOMContentLoaded', () => {
     if (response.totalResults > 0) {
       response.articles.forEach(news => {
         output +=
-          ` <li class="article"><a class="article-link" href="${news.url}" >
+          ` <section class="container">
+              <li class="article"><a class="article-link" href="${news.url}" >
                   <div class="img_area">
                   <img src="${news.urlToImage}" class="article-img" alt="${news.title}"></img>
                   </div>
                   <h2 class="article-title">${news.title}</h2>
                   <p class="article-description">${news.description || "Description not available"}</p>
-                  <span class="article-author">-${news.author ? news.author : "Anon"}</span>
+                  <span class="article-author">-${news.author ? news.author : "Anonymous"}</span>
                   </a>
-                  </li>`;
+                  </li>
+                  </section>
+                  `;
       });
       article_area.innerHTML = output;
     }
@@ -36,11 +39,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // fetching news
   const fetchNews = async (searchTxt) => {
 
-    // for showing loading menu
+    // // for showing loading menu
     let dotLen = 0;
     let loadTxt = 'Loading News';
     let dots = setInterval(() => {
-      console.log('loaddots');
       if (dotLen <= 3) {
         article_area.innerHTML = `<p class="load">${loadTxt}</p>`;
         loadTxt += '.';
@@ -52,50 +54,35 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }, 200);
 
-    // // fetching data
-    // try {
-    //   if (searchTxt) {
-    //     sudoUrl = 'https://newsapi.org/v2/everything?q=' + searchTxt + '&apiKey=';
-    //   }
-    //   let url = proxyUrl + sudoUrl + apiKey;
-    //   console.log(url);
-    // const res = await fetch(url);
+    // fetching data
+    try {
+      if (searchTxt) {
+        sudoUrl = 'https://newsapi.org/v2/everything?q=' + searchTxt + '&apiKey=';
+      }
+      let url = proxyUrl + sudoUrl + apiKey;
+      const res = await fetch(url);
 
-    // if (!res.ok) {
-    //   throw new Error(res.status);
-    // }
-    // const data = await res.json();
+      if (!res.ok) {
+        throw new Error(res.status);
+      }
+      const data = await res.json();
 
-    // clearInterval(dots);    // clearing loading menu
-    // showNews(data);
-    // }
-
-    // // error handling
-    // catch (error) {
-    //   clearInterval(dots);
-    //   article_area.innerHTML = `<p class="load">An error occurred</p><br><p class="load">${error}</p>`;
-    // }
-
-
-    function sleep(ms) {
-      return new Promise(resolve => setTimeout(resolve, ms));
+      clearInterval(dots);    // clearing loading menu
+      showNews(data);
     }
-    
-    console.log("Hello");
-    sleep(4000).then(() => { 
+
+    // error handling
+    catch (error) {
       clearInterval(dots);
-      showNews(sudoData);
-
-    });
-
+      article_area.innerHTML = `<p class="load">An error occurred</p><p class="load">${error}</p>`;
+    }
   };
 
-// getting search text
+  // getting search text
   const getSearch = (event) => {
     if (event.which === 13 || event.keyCode === 13 || event.key === "Enter") {
       if (search.value.trim()) {
         searchTxt = search.value.trim();
-        console.log(searchTxt);
         fetchNews(searchTxt);
       }
     }
@@ -105,17 +92,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const toggle_func = (e) => {
     if (e.target.checked) {
       document.documentElement.setAttribute('data-theme', 'light');
-      console.log('theme light');
     }
     else {
       document.documentElement.setAttribute('data-theme', 'default');
-      console.log('theme dark');
     }
   };
 
   // bind event
   toggleSwitch.addEventListener('change', toggle_func);
   search.addEventListener('keypress', getSearch);
-  console.log('document ready');
   fetchNews();
 });
